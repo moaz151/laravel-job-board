@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 class JobController extends Controller
 {
     function index(){
+        
         return view("job/index");
     }
 }
