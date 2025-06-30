@@ -11,7 +11,6 @@ class PostController extends Controller
     {
         // Eloquenr ORM -> Get All Data
         $data = Post::all(); // Fetch all posts
-
         return view("post.index", ['posts' => $data, 'pageTitle' => 'Blog']);
     }
 
