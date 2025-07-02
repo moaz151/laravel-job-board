@@ -16,11 +16,12 @@ class CommentController extends Controller
 
     function create()
     {
-        Comment::create([
-            'author' => 'Basiouny',
-            'content' => 'This is Basiouny\'s Test Content.',
-            'post_id' => 2
-        ]);
+        // Comment::create([
+        //     'author' => 'Moaz',
+        //     'content' => 'This is Test Comment for post 2.',
+        //     'post_id' => 2
+        // ]);
+        Comment::factory(20)->create(); // Create 100 comments using the factory
         return redirect('/comments');
     }
 }

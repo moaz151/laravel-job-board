@@ -10,7 +10,7 @@ class PostController extends Controller
     function index()
     {
         // Eloquenr ORM -> Get All Data
-        $data = Post::all(); // Fetch all posts
+        $data = Post::paginate(10); // Fetch all posts
         return view("post.index", ['posts' => $data, 'pageTitle' => 'Blog']);
     }
 
@@ -23,12 +23,18 @@ class PostController extends Controller
 
     function create()
     {
-        $post = Post::create([
-            'title' => 'My Find Unique Post',
-            'body' => 'This is to Test Find.',
-            'author' => 'Moaz',
-            'published' => true
-        ]);
+        // $post = Post::create([
+        //     'title' => 'Test Post',
+        //     'body' => 'This is to Test And will be removed.',
+        //     'author' => 'Moaz',
+        //     'published' => true
+        // ]);
+        Post::factory(100)->create(); // Create 100 posts using the factory
         return redirect('/blog');
+    }
+
+    function delete()
+    {
+        Post::destroy(1);
     }
 }
