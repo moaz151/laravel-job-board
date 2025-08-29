@@ -1,40 +1,68 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Post; // Import the Post model
+
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    function index()
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
         // Eloquenr ORM -> Get All Data
         $data = Post::paginate(10); // Fetch all posts
         return view("post.index", ['posts' => $data, 'pageTitle' => 'Blog']);
     }
 
-    function show($id)
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
     {
-        $post = Post::findorfail($id);
+        return view('post.create', ['pageTitle' => 'Create New Post']);
+    }
 
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+       // @TODO: THis will complated in forms sections
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id) // /blog/{id}
+    {
+        $post = Post::findOrFail($id);
         return view('post.show', ['post' => $post, 'pageTitle' => $post->title]);
     }
 
-    function create()
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id) // /blog/{id}/edit
     {
-        // $post = Post::create([
-        //     'title' => 'Test Post',
-        //     'body' => 'This is to Test And will be removed.',
-        //     'author' => 'Moaz',
-        //     'published' => true
-        // ]);
-        Post::factory(100)->create(); // Create 100 posts using the factory
-        return redirect('/blog');
+        return view('post.edit', ['pageTitle' => 'Edit Post']);
     }
 
-    function delete()
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
     {
-        Post::destroy(1);
+        // @TODO: THis will complated in forms sections
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        // @TODO: THis will complated in forms sections
     }
 }

@@ -2,49 +2,69 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post; // Import the Post model
+use Illuminate\Http\Request;
 use App\Models\Tag; // Import the Post model
 
-use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
-    function index()
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
         // Eloquenr ORM -> Get All Data
-        $data = Tag::all(); // Fetch all posts
-        return view("tag.index", ['tags' => $data, 'pageTitle' => 'Tags']);
+        $tags = Tag::paginate(10); // Fetch all posts
+        return view("tag.index", ['tags' => $tags, 'pageTitle' => 'Tags']);
     }
 
-    function create()
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
     {
-        Tag::create([
-            'title' => 'Web Development'
-        ]);
-        return redirect('/tags');
+        return view('tag.create', ['pageTitle' => 'Create New Tag']);
     }
 
-    function testManyToMany()
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
     {
-        $post2 = Post::find(2); // Find the post with ID 2
-        $post3 = Post::find(3); // Find the post with ID 2
+        //
+    }
 
-        $post2->tags()->attach([1, 2]); // Attach tag with ID 1 to post 2
-        $post3->tags()->attach([1]); // Attach tag with ID 1 to post 3
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $tag = Tag::find($id);
+        return view('tag.show', ['tag' => $tag, 'pageTitle' => 'View Tag']);
+    }
 
-        return response()->json([
-            'message' => 'Tags attached successfully',
-            'post2_tags' => $post2->tags,
-            'post3_tags' => $post3->tags
-        ]);
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $tag = Tag::find($id);
+        return view('tag.edit', ['tag' => $tag, 'pageTitle' => 'Edit Tag']);
+    }
 
-        // $tag = Tag::find(1); // Find the tag with ID 1
-        // $tag->posts()->attach(2); // Attach posts with IDs 1 and 2 to the tag
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
 
-        // $tag = Tag::find(1); // Find the tag with ID 1
-        // return response()->json([
-        //     'tag' => $tag->title,
-        //     'posts' => $tag->posts
-        // ]);
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
     }
 }
