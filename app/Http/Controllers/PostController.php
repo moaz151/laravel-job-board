@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Post; // Import the Post model
-
-use Illuminate\Http\Request;
+use App\Http\Requests\Request;
+use App\Http\Requests\BlogPostRequest;
 
 class PostController extends Controller
 {
@@ -13,7 +13,7 @@ class PostController extends Controller
     public function index()
     {
         // Eloquenr ORM -> Get All Data
-        $data = Post::paginate(10); // Fetch all posts
+        $data = Post::latest()->paginate(10); // Fetch all posts
         return view("post.index", ['posts' => $data, 'pageTitle' => 'Blog']);
     }
 
@@ -22,15 +22,22 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('post.create', ['pageTitle' => 'Create New Post']);
+        return view('post.create', ['pageTitle' => 'Blog - Create New Post']);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BlogPostRequest $request)
     {
-       // @TODO: THis will complated in forms sections
+        $post = new Post();
+        $post->title = $request->input('title');
+        $post->author = $request->input('author');
+        $post->body = $request->input('body');
+        $post->published = $request->has('published');
+
+        $post->save();
+        return redirect('/blog')->with('success', 'Post created successfully!');
     }
 
     /**
@@ -47,15 +54,26 @@ class PostController extends Controller
      */
     public function edit(string $id) // /blog/{id}/edit
     {
-        return view('post.edit', ['pageTitle' => 'Edit Post']);
+        $post = Post::findOrfail($id);
+        return view('post.edit', ['post' => $post, 'pageTitle' => 'Blog - Edit Post: ' . $post->title]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(BlogPostRequest $request, string $id)
     {
-        // @TODO: THis will complated in forms sections
+        $post = Post::findOrfail($id);
+
+        $post->title = $request->input('title');
+        $post->author = $request->input('author');
+        $post->body = $request->input('body');
+        $post->published = $request->has('published');
+
+        $post->save();
+
+        return redirect('/blog')->with('success', 'Post Updated successfully!');
+
     }
 
     /**
@@ -63,6 +81,9 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        // @TODO: THis will complated in forms sections
+        $post = Post::findOrfail($id);
+        $post->delete();
+
+        return redirect('/blog')->with('success', 'Post Delete successfully!');
     }
 }

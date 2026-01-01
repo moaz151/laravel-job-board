@@ -32,7 +32,8 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        // @TODO: THis will complated in forms sections
+        print_r($request->all());
+        
     }
 
     /**
