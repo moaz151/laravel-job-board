@@ -11,7 +11,7 @@ class SignupRequest extends FormRequest
         return [
             'name' => 'bail|required|string',
             'email' => 'bail|required|string|email|unique:users',
-            'password' => 'bail|required|string|min:8|confirmed',
+            'password' => 'bail|required|string|min:6|confirmed',
 
         ];
     }
